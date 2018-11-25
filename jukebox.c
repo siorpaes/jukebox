@@ -1,10 +1,20 @@
 /** \file jukebox.c
  * \author david.siorpaes@gmail.com
  *
- * Implements a very simple client that connects to a VLC instance running
- * in server mode:
+ * Implements a very simple client that drives a VLC instance as follows:
+ *
+ * /home/pi/jukebox/jukebox /home/pi/music | runuser -l pi -c "/usr/bin/vlc" &
+ *
+ * or, using TCP/IP server mode, using netcat:
+ *
  * vlc -vvv --intf rc --rc-host :50000
- * A numeric keypad is used as player controller
+ * /home/pi/jukebox/jukebox /home/pi/music | /bin/nc localhost 50000 &
+ *
+ * A numeric keypad is used as player controller. Takes as first argument the
+ * path of the media files root directory to be played. All media files must
+ * be contained in directories named with numbers (e.g.: 1, 10, 45,...) which
+ * are played back when user enters the corresponding number with the keypad
+ * and presses enter.
  */
 
 #include <stdio.h>
