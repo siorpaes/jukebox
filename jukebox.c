@@ -123,6 +123,11 @@ int processEntry(uint8_t entry)
     if(number == STAR){
       sendCommand("next\n");
     }
+
+    if(number == NLOCK){
+      sendCommand("fastforward\n");
+    }
+
   }
 
   return 0;
