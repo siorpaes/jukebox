@@ -21,12 +21,20 @@
 int state = IDLE;
 char jbKeys[3];
 int jbKeyIndex;
+char mediaPath[256];
 
 int main(int argc, char** argv)
 {
   int hrawfd;
   int ret, i;
   uint8_t hrBuffer[128];
+
+  if(argc != 2){
+    fprintf(stderr, "Usage: %s <mediapath>\n", argv[0]);
+    return -1;
+  }
+
+  strcpy(mediaPath, argv[1]);
 
   hrawfd = open("/dev/hidraw1", O_RDONLY);
   if(hrawfd < 0){
@@ -58,7 +66,6 @@ int processEntry(uint8_t entry)
   char digit;
 
   ret = isNumber(entry, &number);
-  //printf("Key 0x%02x num %i %s", entry, number, (ret ? "number" : "not number"));
 
   /* Manage numbers entry */
   if(ret){
@@ -84,7 +91,10 @@ int processEntry(uint8_t entry)
 	jbKeyIndex = 0;
       }
       else{
-	sendCommand("add /home/daz/jukebox/music/");
+	sendCommand("add ");	
+	sendCommand(mediaPath);
+	digit = '/';
+	sendCommand(&digit);
 	for(i=0; i<jbKeyIndex; i++){
 	  digit = '0' + jbKeys[i];
 	  sendCommand(&digit);
