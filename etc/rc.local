@@ -17,9 +17,10 @@ if [ "$_IP" ]; then
   printf "My IP address is %s\n" "$_IP"
 fi
 
-runuser -l pi -c "/usr/bin/vlc --intf rc --rc-host :50000 &"
-sleep 5
-/home/pi/jukebox/jukebox /home/pi/music | /bin/nc localhost 50000 &
+#runuser -l pi -c "/usr/bin/vlc --intf rc --rc-host :50000 &"
+#sleep 5
+#/home/pi/jukebox/jukebox /home/pi/music | /bin/nc localhost 50000 &
 
+/home/pi/jukebox/jukebox /home/pi/music | runuser -l pi -c "/usr/bin/vlc" &
 
 exit 0
