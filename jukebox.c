@@ -128,17 +128,17 @@ int processEntry(uint8_t entry)
 
     if(number == SLASH){
       sendCommand("prev\n");
-      sendCommand("get_title");
+      sendCommand("get_title\n");
     }
     
     if(number == STAR){
       sendCommand("next\n");
-      sendCommand("get_title");
+      sendCommand("get_title\n");
     }
 
     if(number == NLOCK){
       sendCommand("fastforward\n");
-      sendCommand("get_time");
+      sendCommand("get_time\n");
     }
 
   }
