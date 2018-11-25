@@ -31,3 +31,4 @@
 
 int processEntry(uint8_t entry);
 int isNumber(int hrcode, int* number);
+int sendCommand(char* command);

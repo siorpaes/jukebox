@@ -2,7 +2,8 @@
  * \author david.siorpaes@gmail.com
  *
  * Implements a very simple client that connects to a VLC instance running
- * in server mode.
+ * in server mode:
+ * vlc -vvv --intf rc --rc-host :50000
  * A numeric keypad is used as player controller
  */
 
@@ -37,14 +38,13 @@ int main(int argc, char** argv)
     /* Process input keys */
     ret = read(hrawfd, hrBuffer, 8);
     if(ret != 8)
-      printf("Warning!! Read %i bytes\n", ret); //TODO cope with this
+      fprintf(stderr, "Warning!! Read %i bytes\n", ret); //TODO cope with this
 
     for(i=0; i<8; i++){
       if(hrBuffer[i] != 0){
 	processEntry(hrBuffer[i]);
       }
     }
-    printf("\n");
   }
   
   return 0;
@@ -55,6 +55,7 @@ int processEntry(uint8_t entry)
 {
   int number;
   int ret, i;
+  char digit;
 
   ret = isNumber(entry, &number);
   //printf("Key 0x%02x num %i %s", entry, number, (ret ? "number" : "not number"));
@@ -76,38 +77,41 @@ int processEntry(uint8_t entry)
   /* Not a number */
   else{
     if(number == ENTER){
+      /* Clear playlist */
+      sendCommand("clear\n");
+      
       if(state == IDLE){
-	/* Reset everything */
-	printf("Stop\n");
 	jbKeyIndex = 0;
       }
       else{
-	printf("Playing song ");
-	for(i=0; i<jbKeyIndex; i++)
-	  printf("%i", jbKeys[i]);
-	printf("\n");
+	sendCommand("add /home/daz/jukebox/music/");
+	for(i=0; i<jbKeyIndex; i++){
+	  digit = '0' + jbKeys[i];
+	  sendCommand(&digit);
+	}
+	sendCommand("\n");
 	state = IDLE;
       }
     }
 
     if(number == PLUS){
-      printf("Volume Up\n");
+      sendCommand("volup\n");
     }
 
     if(number == MINUS){
-      printf("Volume Down\n");
+      sendCommand("voldown\n");
     }
 
     if(number == DOT){
-      printf("Pause\n");
+      sendCommand("pause\n");
     }
 
     if(number == SLASH){
-      printf("Previous song\n");
+      sendCommand("prev\n");
     }
     
     if(number == STAR){
-      printf("Next song\n");
+      sendCommand("next\n");
     }
   }
 
@@ -134,3 +138,10 @@ int isNumber(int hrcode, int* number)
   return 0;
 }
 
+
+int sendCommand(char* command)
+{
+  int ret;
+  ret = write(STDOUT_FILENO, command, strlen(command));
+  return ret;
+}
