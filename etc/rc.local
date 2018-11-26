@@ -21,6 +21,7 @@ fi
 #sleep 5
 #/home/pi/jukebox/jukebox /home/pi/music | /bin/nc localhost 50000 &
 
+/usr/bin/amixer set PCM 95%
 /home/pi/jukebox/jukebox /home/pi/music | runuser -l pi -c "/usr/bin/vlc" &
 
 exit 0
