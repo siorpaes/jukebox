@@ -33,4 +33,13 @@ If using netcat, add instead:
     runuser -l pi -c "/usr/bin/vlc --intf rc --rc-host :50000 &"
     sleep 5
     /home/pi/jukebox/jukebox /home/pi/music | /bin/nc localhost 50000 &
+
+A Raspberry power button can be easily added: see [Pi Power Button](https://github.com/Howchoo/pi-power-button).
+
+The Activity LED can be retargeted following instructions provided here: [Activity LED](https://www.raspberrypi.org/forums/viewtopic.php?t=158293).
+In short, add the following line
+
+    dtparam=act_led_gpio=17
+
+to `/boot/config.txt`
     

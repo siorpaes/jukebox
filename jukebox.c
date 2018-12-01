@@ -55,12 +55,17 @@ int main(int argc, char** argv)
   while(1){
     /* Process input keys */
     ret = read(hrawfd, hrBuffer, 8);
+    if(ret < 0){
+      fprintf(stderr, "Cannot read hidraw: %s\n", strerror(errno));
+      return errno;
+    }
+
     if(ret != 8)
       fprintf(stderr, "Warning!! Read %i bytes\n", ret); //TODO cope with this
 
     for(i=0; i<8; i++){
       if(hrBuffer[i] != 0){
-	processEntry(hrBuffer[i]);
+	      processEntry(hrBuffer[i]);
       }
     }
   }
