@@ -4,12 +4,14 @@ import RPi.GPIO as GPIO
 import subprocess
 from time import sleep
 
+led = 25;
+
 GPIO.setmode(GPIO.BCM);
-GPIO.setup(24, GPIO.OUT);
+GPIO.setup(led, GPIO.OUT);
 
 while True:
-    GPIO.output(24, True);
+    GPIO.output(led, True);
     sleep(0.1);
-    GPIO.output(24, False);
+    GPIO.output(led, False);
     sleep(1.9);
 
