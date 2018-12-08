@@ -17,11 +17,13 @@ if [ "$_IP" ]; then
   printf "My IP address is %s\n" "$_IP"
 fi
 
-#runuser -l pi -c "/usr/bin/vlc --intf rc --rc-host :50000 &"
-#sleep 5
-#/home/pi/jukebox/jukebox /home/pi/music | /bin/nc localhost 50000 &
-
+#Set volume
 /usr/bin/amixer set PCM 95%
+
+#Launch jukebox
 /home/pi/jukebox/jukebox /home/pi/music | runuser -l pi -c "/usr/bin/vlc" &
+
+#Launch blink ready LED
+/home/pi/jukebox/ready.py &
 
 exit 0
