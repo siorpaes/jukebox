@@ -42,4 +42,7 @@ In short, add the following line
     dtparam=act_led_gpio=17
 
 to `/boot/config.txt`
+
+## Troubleshooting ##
+According to the keypad vendor and the HID devices installed on the Raspberry, the correct HID device to be read may be different from the one in the code (`/dev/hidraw1`). If Jukebox is not working, try changing the device to `/dev/hidraw0`.
     
